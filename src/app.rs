@@ -2,6 +2,7 @@ use crate::error_template::{AppError, ErrorTemplate};
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
+use leptonic::prelude::*;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -10,10 +11,12 @@ pub fn App() -> impl IntoView {
 
     view! {
 
+        <Script type_="module" src="/js/tiptap-bundle.min.js" />
+        <Script type_="module" src="/js/tiptap.js" />
 
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
-        <Stylesheet id="leptos" href="/pkg/start-axum.css"/>
+        <Stylesheet id="leptos" href="/pkg/leptos-ssr-leptonic.css"/>
 
         // sets the document title
         <Title text="Welcome to Leptos"/>
@@ -27,11 +30,13 @@ pub fn App() -> impl IntoView {
             }
             .into_view()
         }>
-            <main>
-                <Routes>
-                    <Route path="" view=HomePage/>
-                </Routes>
-            </main>
+            <Root default_theme=LeptonicTheme::default()>
+                <main>
+                    <Routes>
+                     <Route path="" view=HomePage/>
+                    </Routes>
+                </main>
+            </Root>
         </Router>
     }
 }
@@ -45,6 +50,6 @@ fn HomePage() -> impl IntoView {
 
     view! {
         <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <Button on_click=on_click variant=ButtonVariant::Filled>"Click Me: " {count}</Button>
     }
 }
